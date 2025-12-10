@@ -12,7 +12,7 @@ export default defineConfig({
     brotliSize: true,
     open: true,
   })],
-  base: "/",
+  base: "./",
   build: {
     outDir: "dist",
   },
