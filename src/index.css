@@ -4,16 +4,15 @@
 
 @layer base {
   :root {
-    /* Modern 2026 Dark Theme Palette */
-    --background: 225 10% 6%; /* #0e0e0f */
-    --foreground: 0 0% 95%; /* #f2f2f2 */
-    --card: 225 8% 11%; /* #1a1a1c */
+    --background: 225 10% 6%;
+    --foreground: 0 0% 95%;
+    --card: 225 8% 11%;
     --card-foreground: 0 0% 95%;
     --popover: 225 8% 11%;
     --popover-foreground: 0 0% 95%;
-    --primary: 350 100% 58%; /* #ff2d55 */
+    --primary: 350 100% 58%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 350 65% 35%; /* #b31835 */
+    --secondary: 350 65% 35%;
     --secondary-foreground: 0 0% 100%;
     --muted: 225 8% 15%;
     --muted-foreground: 0 0% 70%;
@@ -25,15 +24,14 @@
     --input: 225 8% 20%;
     --ring: 350 100% 58%;
     --radius: 16px;
+
     --chart-1: 350 100% 58%;
     --chart-2: 200 100% 50%;
     --chart-3: 280 100% 60%;
     --chart-4: 40 100% 55%;
     --chart-5: 160 100% 45%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
@@ -44,96 +42,23 @@
     font-family: 'Rubik', 'Assistant', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 
-  /* Route/back navigation should not animate scroll globally */
   html {
     scroll-behavior: auto;
   }
 
-  /* Custom scrollbar */
+  /* Scrollbars */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
-
   ::-webkit-scrollbar-track {
     background: #0e0e0f;
   }
-
   ::-webkit-scrollbar-thumb {
     background: #1a1a1c;
     border-radius: 4px;
   }
-
   ::-webkit-scrollbar-thumb:hover {
     background: #2a2a2c;
-  }
-}
-
-@layer utilities {
-  /* Backdrop blur utility */
-  .backdrop-blur-modern {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  /* Smooth transitions */
-  .transition-modern {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Snap scroll */
-  .snap-x {
-    scroll-snap-type: x mandatory;
-  }
-
-  .snap-start {
-    scroll-snap-align: start;
-  }
-
-  /* Custom scrollbar */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    transition: background 0.2s ease;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
-
-  /* Scrollbar utilities */
-  .scrollbar-none {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .scrollbar-none::-webkit-scrollbar {
-    display: none;
-  }
-
-  .scrollbar-thin {
-    scrollbar-width: thin;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  .scrollbar-thumb-white\/10::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-  }
-
-  .scrollbar-track-transparent::-webkit-scrollbar-track {
-    background-color: transparent;
   }
 }
