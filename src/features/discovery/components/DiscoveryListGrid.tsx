@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 import { useDiscoveryQuery } from "../hooks/useDiscoveryQuery";
 import { useIntersectionObserver } from "@/shared/hooks/useIntersectionObserver";
 import type { DiscoverParams, Movie, PaginatedResponse } from "@/shared/types";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 interface DiscoveryListGridProps {
   discoverParams: DiscoverParams;

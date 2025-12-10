@@ -2,7 +2,7 @@ import React from "react";
 import { Badge } from "@/components/ui";
 import type { Movie } from "@/shared/types";
 import { cn } from "@/shared/lib";
-import { motion } from "framer-motion";
+import { motion } from "motion/react"; 
 import { TMDB_IMAGE_URL, TMDB_IMAGE_SIZE_MEDIUM } from "@/shared/constants";
 import { useMovieModalStore } from "@/shared/store/movieModal.store";
 

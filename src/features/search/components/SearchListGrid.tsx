@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Loader2 } from "lucide-react";
 import { useSearchMovies } from "@/features/search/hooks/useSearchMovies";
 import type { Movie, PaginatedResponse } from "@/shared/types";
-import { motion } from "framer-motion";
+import { motion } from "motion/react"; 
 
 interface SearchListGridProps {
   query: string;

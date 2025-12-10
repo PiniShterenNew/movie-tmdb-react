@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect } from "react";
 import { X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useMovieModalStore } from "@/shared/store/movieModal.store";
 import { useMovieDetails } from "@/features/movie-details/hooks/useMovieDetails";
 import { useMovieCredits } from "@/features/movie-details/hooks/useMovieCredits";

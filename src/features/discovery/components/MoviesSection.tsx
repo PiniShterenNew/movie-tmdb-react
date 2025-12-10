@@ -2,7 +2,7 @@ import React from "react";
 import { MoviesCarousel } from "./MoviesCarousel";
 import { useDiscoveryQuery } from "../hooks/useDiscoveryQuery";
 import type { DiscoverParams, Movie, PaginatedResponse } from "@/shared/types";
-import { motion } from "framer-motion";
+import { motion } from "motion/react"; 
 import { cn } from "@/shared/lib";
 
 interface MoviesSectionProps {

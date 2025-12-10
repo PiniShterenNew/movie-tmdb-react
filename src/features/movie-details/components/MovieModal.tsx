@@ -9,7 +9,7 @@ import { MovieGenre, ProductionCompany } from "@/shared";
 import { ErrorMessage } from "@/components/ui";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 import { TMDB_IMAGE_URL, TMDB_IMAGE_SIZE_MEDIUM } from "@/shared/constants";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react"; 
 import { cn } from "@/shared/lib";
 
 interface Props {
