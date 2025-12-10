@@ -2,29 +2,42 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout source
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Setup pnpm (רשמי)
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+
+      # 3. Setup Node.js with pnpm caching (רשמי)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'pnpm'
 
+      # 4. Install dependencies
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile=false
 
+      # 5. Type check
       - name: Type check
-        run: pnpm run typecheck || npx tsc -b
+        run: pnpm exec tsc -b
 
+      # 6. Run tests (Vitest)
       - name: Run tests
         run: |
           if ls tests/**/*.{test,spec}.{ts,tsx} 1> /dev/null 2>&1; then
@@ -33,5 +46,6 @@ jobs:
             echo "No test files found, skipping tests."
           fi
 
+      # 7. Build project (Vite + TS + React)
       - name: Build project
         run: pnpm run build
