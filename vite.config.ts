@@ -12,9 +12,18 @@ export default defineConfig({
     brotliSize: true,
     open: true,
   })],
-  base: "./",
+  base: "/",
   build: {
     outDir: "dist",
+    cssCodeSplit: false,
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+      },
+    },
   },
   resolve: {
     alias: {
