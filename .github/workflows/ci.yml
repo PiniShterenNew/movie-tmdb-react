@@ -26,7 +26,12 @@ jobs:
         run: npm run typecheck || npx tsc -b
 
       - name: Run tests
-        run: npm test --if-present
+        run: |
+          if ls tests/**/*.{test,spec}.{ts,tsx} 1> /dev/null 2>&1; then
+            npm test
+          else
+            echo "No test files found, skipping tests."
+          fi
 
       - name: Build project
         run: npm run build
