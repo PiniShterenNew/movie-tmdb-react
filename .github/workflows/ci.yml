@@ -20,18 +20,18 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Type check
-        run: npm run typecheck || npx tsc -b
+        run: pnpm run typecheck || npx tsc -b
 
       - name: Run tests
         run: |
           if ls tests/**/*.{test,spec}.{ts,tsx} 1> /dev/null 2>&1; then
-            npm test
+            pnpm test
           else
             echo "No test files found, skipping tests."
           fi
 
       - name: Build project
-        run: npm run build
+        run: pnpm run build
