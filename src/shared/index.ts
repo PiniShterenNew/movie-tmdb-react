@@ -3,5 +3,7 @@ export * from './types';
 export * from './hooks';
 export * from './lib';
 export * from './constants';
+export * from './store/movieModal.store';
+export * from './store/language.store';
 
 export * from './api';

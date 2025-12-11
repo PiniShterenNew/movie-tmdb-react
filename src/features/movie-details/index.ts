@@ -1,1 +1,1 @@
-export { MovieModal } from "./components/MovieModal";
+export { MovieModalFullScreen } from "./components/MovieModalFullScreen";

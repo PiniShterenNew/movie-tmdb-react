@@ -1,0 +1,270 @@
+---
+alwaysApply: true
+---
+
+
+# חוקי סניור – React + TypeScript
+
+מסמך זה מרכז את כל חוקי הפיתוח המחייבים עבור פרויקט React/TypeScript ברמת Senior. מטרתו ליצור אחידות, איכות גבוהה, סקלאביליות, ביצועים ונגישות מלאה.
+
+---
+
+# 1. עקרונות-על
+
+1. כל רכיב מבוסס **TypeScript מלא** ללא `any`.
+2. הפרדה מוחלטת בין:
+
+   * UI Components
+   * Hooks (Business Logic)
+   * API Layer (server-state)
+   * Local-state logic
+3. כל קובץ עושה **דבר אחד בלבד (SRP)**.
+4. כל state שאינו UI-Only → חייב להיות ב־hook נפרד.
+5. כל state שמגיע מהשרת → חייב לבוא מ־React Query / Zustand structured store.
+6. אין לכתוב תנאים לוגיים או חישובים מורכבים בתוך JSX.
+   חובה להוציא אותם ל־useMemo/useCallback או ל־hooks.
+
+---
+
+# 2. Component Rules (UI בלבד)
+
+## תפקיד הרכיב:
+
+* מציג UI בלבד.
+* מקבל נתונים מוכנים להצגה.
+* מפעיל callbacks.
+* אינו מבצע CRUD.
+* אינו מבצע לוגיקה עסקית.
+* אינו יודע "מאיפה" הנתונים הגיעו.
+
+## אסור לרכיב:
+
+* לבצע fetch
+* לבצע חישובים עסקיים
+* להכיל useEffect שלא קשור ל־UI בלבד
+* להכיל state של מידע שהגיע מהשרת
+* להכיל טיפוסים רופפים
+
+## מותר לרכיב:
+
+* לנהל UI state קטן: פתיחה/סגירה, checkbox, dropdown, selected tab
+* לבצע transitions
+* לקבל ולרנדר props typed היטב
+
+---
+
+# 3. Hooks (Business Logic Layer)
+
+כל לוגיקה עסקית חייבת לצאת ל־hooks.
+
+## מה נחשב business logic?
+
+* סינון/מיון נתונים
+* בחירת טריילר
+* חישוב ערכים
+* בניית derived state
+* חוקים עסקיים (e.g. "אם יש טריילר רשמי, בחר אותו קודם")
+
+## חוקי Hook:
+
+1. תמיד שם `useX`.
+2. תמיד typed היטב.
+3. לעולם לא מחזיר JSX.
+4. אינו יודע UI.
+5. מכיל רק את הלוגיקה, כולל useMemo/useCallback.
+6. אם hook משתמש ב־API → הוא שייך ל־server-state layer בלבד.
+
+---
+
+# 4. API Layer (Server-State)
+
+## כללי:
+
+* כל API מחויב להחזיר טיפוסים מלאים.
+* אין `any` ואין `unknown` ללא המרה.
+* React Query אחראי:
+
+  * cache
+  * loading
+  * error
+  * refetch
+  * stale-time
+* UI לעולם לא מבצע fetch ישירות.
+
+## מבנה:
+
+* src/api
+
+  * movie.api.ts
+  * user.api.ts
+  * types/
+
+API לעולם לא מכיל JSX או לוגיקה לא קשורה.
+
+---
+
+# 5. TypeScript Rules
+
+## חייב תמיד:
+
+* טיפוסים מוחלטים
+* שימוש ב־interface/ type לפי הצורך
+* שימוש בפונקציות TS מתקדמות:
+
+  * Pick
+  * Omit
+  * Extract
+  * ReturnType
+  * Partial & Required
+
+## אסור:
+
+* `any`
+* `as any`
+* טיפוס מסורבל ללא צורך (e.g. `string | null | undefined`)
+* טיפוס לא מדויק כמו `object`
+
+---
+
+# 6. State Management Rules
+
+## UI State:
+
+* ברכיב בלבד
+* ephemeral only (פתיחת modal, dropdown וכו')
+
+## Local Business State:
+
+* useReducer / Zustand slice
+* לעולם לא ב־UI
+
+## Server State:
+
+* React Query בלבד
+* אין לשמור דגלים כמו loading/error ב־local state
+
+---
+
+# 7. Accessibility Rules
+
+1. כל modal חייב:
+
+   * role="dialog"
+   * aria-modal="true"
+   * focus trap
+   * restore focus
+   * פעולת ESC
+2. כל כפתור חייב aria-label אם אין טקסט.
+3. תמונות חייבות alt.
+4. כותרת ראשית חייבת id והפניה מ־aria-labelledby.
+
+---
+
+# 8. Performance Rules
+
+1. כל לוגיקה מחושבת → useMemo.
+2. כל callback → useCallback.
+3. כל חישוב מחוץ ל־JSX.
+4. אין ליצור אובייקטים/פונקציות inline.
+5. תמונות מ־TMDB תמיד עם:
+
+   * lazy loading
+   * sizes
+   * decoding="async"
+6. אנימציות חובה להשתמש ב־motion ללא reflow.
+
+---
+
+# 9. Folder Structure
+
+```
+src/
+  api/
+    movie.api.ts
+    types/
+
+  features/
+    movie-modal/
+      hooks/
+      components/
+      utils/
+      index.ts
+
+  shared/
+    components/
+    hooks/
+    store/
+    types/
+```
+
+---
+
+# 10. חוקי SRP (Single Responsibility)
+
+כל קובץ עושה **דבר אחד בלבד**:
+
+* רכיב מציג UI בלבד
+* hook אחד לטפל בחוק עסקי אחד
+* פונקציה אחת – משימה אחת
+* API קובץ אחד – endpoint group אחד
+
+---
+
+# 11. Error Handling Rules
+
+1. UI לא יודע את סוג השגיאה. הוא מקבל אובייקט typed מוכן להצגה.
+2. כל API מחויב ללכוד ולתרגם שגיאות.
+3. אין להדפיס ל־console-production.
+4. Error Boundary חובה עבור components גדולים.
+
+---
+
+# 12. Security Rules
+
+1. אין לעולם להכניס HTML לא מבוקר (dangerouslySetInnerHTML).
+2. אין לשים tokens ב־localStorage.
+3. API חייב להיות מאובטח ב־server בלבד.
+4. קלט מהמשתמש נבדק תמיד.
+5. אין להעביר IDs ב־URL ללא backend validation.
+
+---
+
+# 13. Animation Rules
+
+1. אנימציה לא חוצה responsibility boundaries.
+2. אין אנימציות כבדות על layout.
+3. אין להפעיל AnimatePresence ללא exit.
+
+---
+
+# 14. Code Review Checklist
+
+לפני Merge חובה לבדוק:
+
+* האם הרכיב מציג UI בלבד?
+* האם הוצאתי 100% לוגיקה ל־hook?
+* האם יש טיפוסים מדויקים?
+* האם המערכת ניתנת להרחבה?
+* האם נגישות תקינה?
+* האם אין duplicate logic?
+* האם אין useEffect מיותר?
+* האם ביצועים תקינים?
+
+---
+
+# 15. Definition of Done (DoD)
+
+✔ TypeScript מלא ללא Any
+✔ UI מחולק לפי SRP
+✔ Hooks נקיים ומופרדים
+✔ API typed היטב
+✔ נגישות מושלמת
+✔ בדיקות ידניות בסיסיות
+✔ Performance תקין
+✔ קוד עומד בכל חוקי המסמך
+
+---
+
+# סוף המסמך
+
+מסמך זה מגדיר את הסטנדרט הקפדני לפיו כל Feature חדש בפרויקט מחויב להתבצע.

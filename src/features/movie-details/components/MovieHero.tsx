@@ -45,7 +45,7 @@ export const MovieHero: React.FC<MovieHeroProps> = ({ movie }) => {
                     {/* Title and Info */}
                     <div className="flex-1 space-y-4">
                         <div>
-                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#f2f2f2] leading-tight mb-2">
+                            <h1 id="movie-modal-title" className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#f2f2f2] leading-tight mb-2">
                                 {movie.title}
                             </h1>
                             {movie.tagline && (
