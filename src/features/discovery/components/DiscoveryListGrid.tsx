@@ -76,7 +76,7 @@ export const DiscoveryListGrid: React.FC<DiscoveryListGridProps> = ({
         {allMovies.map((movie: Movie, index: number) => (
           <li key={`${movie.id}-${index}`} className="flex justify-center">
             <div className="w-[200px] h-[285px] md:w-[240px] md:h-[342px] lg:w-[260px] lg:h-[371px] xl:w-[280px] xl:h-[400px]">
-              <MovieCard movie={movie} />
+              <MovieCard movie={movie} isPriority={index === 0} />
             </div>
           </li>
         ))}

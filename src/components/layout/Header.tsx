@@ -71,7 +71,10 @@ export const Header: React.FC<HeaderProps> = ({ className }) => {
         <div className="flex items-center gap-2">
           {/* Language Selector */}
           <Select value={language} onValueChange={handleLanguageChange}>
-            <SelectTrigger className="w-[100px] h-9 bg-[#1a1a1c] border-white/10 text-[#f2f2f2] hover:bg-[#1a1a1c]/80">
+            <SelectTrigger 
+              className="w-[100px] h-9 bg-[#1a1a1c] border-white/10 text-[#f2f2f2] hover:bg-[#1a1a1c]/80"
+              aria-label={language === "he" ? "בחר שפה" : "Select language"}
+            >
               <div className="flex items-center gap-2">
                 <Languages className="w-4 h-4" />
                 <SelectValue />

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://movie-tmdb-react-jc9j5nis6-pinishterennews-projects.vercel.app/sitemap.xml
+

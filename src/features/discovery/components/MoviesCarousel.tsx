@@ -82,7 +82,7 @@ export const MoviesCarousel: React.FC<MoviesCarouselProps> = ({
       >
         {movies.map((movie, index) => (
           <div key={`${movie.id}-${index}`} className="flex-shrink-0" style={{ width: "280px", height: "400px" }}>
-            <MovieCard movie={movie} />
+            <MovieCard movie={movie} isPriority={index === 0} />
           </div>
         ))}
         

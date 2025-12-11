@@ -1,18 +1,19 @@
 import React from "react";
 import { Badge } from "@/components/ui";
+import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 import type { Movie } from "@/shared/types";
 import { cn } from "@/shared/lib";
 import { motion } from "motion/react"; 
-import { TMDB_IMAGE_URL, TMDB_IMAGE_SIZE_MEDIUM } from "@/shared/constants";
 import { useMovieModalStore } from "@/shared/store/movieModal.store";
 
 interface MovieCardProps {
   movie: Movie;
   onClick?: () => void; // Optional for backward compatibility
   className?: string;
+  isPriority?: boolean; // For LCP optimization - mark first image as priority
 }
 
-export const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick, className }) => {
+export const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick, className, isPriority = false }) => {
   const { openMovieModal } = useMovieModalStore();
   const imagePath = movie.poster_path || "";
 
@@ -44,22 +45,21 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick, className 
         "
       >
 
-        {/* Background Image */}
-        <div
-          className="
-            absolute inset-0 
-            transition-all duration-500
-            group-hover:scale-105 group-hover:brightness-90
-          "
-          style={{
-            backgroundImage: imagePath
-              ? `url(${TMDB_IMAGE_URL(imagePath, TMDB_IMAGE_SIZE_MEDIUM)})`
-              : undefined,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        />
+        {/* Background Image - Using <img> for LCP optimization */}
+        <div className="absolute inset-0 overflow-hidden">
+          <ResponsiveImage
+            src={imagePath}
+            alt={movie.title}
+            className="
+              w-full h-full
+              transition-all duration-500
+              group-hover:scale-105 group-hover:brightness-90
+            "
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
+            loading={isPriority ? "eager" : "lazy"}
+            fetchPriority={isPriority ? "high" : "auto"}
+          />
+        </div>
 
         {/* Rating Badge */}
         {movie.vote_average !== null && movie.vote_average !== undefined && (
@@ -89,7 +89,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick, className 
 
           {/* Actual Text */}
           <div className="relative space-y-0.5">
-            <h3
+            <h2
               className="
                 font-bold text-base text-[#f2f2f2]
                 line-clamp-2 leading-tight
@@ -97,7 +97,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick, className 
               "
             >
               {movie.title}
-            </h3>
+            </h2>
 
             {movie.release_date && (
               <div

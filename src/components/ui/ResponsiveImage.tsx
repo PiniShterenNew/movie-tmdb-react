@@ -14,6 +14,7 @@ interface ResponsiveImageProps {
     sizes?: string;
     fallbackSize?: string;
     loading?: "lazy" | "eager";
+    fetchPriority?: "high" | "low" | "auto";
     onLoad?: () => void;
     onError?: () => void;
 }
@@ -24,6 +25,7 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
     sizes,
     fallbackSize = TMDB_IMAGE_SIZE_MEDIUM,
     loading = "lazy",
+    fetchPriority = "auto",
     onLoad,
     onError,
 }) => {
@@ -81,6 +83,7 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
                     isLoaded ? "opacity-100" : "opacity-0"
                 )}
                 loading={loading}
+                fetchPriority={fetchPriority}
                 onLoad={handleLoad}
                 onError={handleError}
             />
