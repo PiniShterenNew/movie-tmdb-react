@@ -1,2 +1,11 @@
 export { useDiscoveryQuery } from "./hooks/useDiscoveryQuery";
 export { fetchDiscoveryMovies } from "./api/discovery.api";
+export { useDiscoveryFilters} from "./hooks/useDiscoveryFilters";
+export { DiscoveryPage } from "./pages/DiscoveryPage";
+export { MoviesSection } from "./components/MoviesSection";
+export { DiscoveryList } from "./components/DiscoveryList";
+export { DiscoveryListLoading } from "./components/ui/DiscoveryListLoading";
+export { DiscoveryListError } from "./components/ui/DiscoveryListError";
+export { DiscoveryListView } from "./components/ui/DiscoveryListView";
+export { DiscoveryListCarousel } from "./components/DiscoveryListCarousel";
+export { DiscoveryListGrid } from "./components/DiscoveryListGrid";

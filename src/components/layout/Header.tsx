@@ -1,10 +1,11 @@
+// components/layout/Header.tsx
 import React, { useState, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Search, ArrowLeft, RotateCcw, Languages } from "lucide-react";
 import { cn, hasActiveFilters } from "@/shared/lib";
 import { AdvancedFiltersPopover } from "@/features/discovery/components/AdvancedFiltersPopover";
 import { useDiscoveryFilters } from "@/features/discovery/hooks/useDiscoveryFilters";
-import { useLanguageStore, type Language } from "@/shared/store/language.store";
+import { useLanguageStore, type Language } from "@/shared";
 import { queryClient } from "@/shared/lib";
 import {
   Select,
