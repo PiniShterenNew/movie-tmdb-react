@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { FilterChips } from "@/features/filters/components/ui/FilterChips";
@@ -7,9 +7,24 @@ import { DiscoveryListGrid } from "@/features/discovery/components/DiscoveryList
 import { useDiscoveryFilters } from "@/features/discovery/hooks/useDiscoveryFilters";
 import { SearchPage } from "@/features/search/pages/SearchPage";
 import { MovieModalFullScreen } from "@/components/MovieModal/MovieModalFullScreen";
+import { HomePage } from "@/features/home/pages/HomePage";
 import { Flame, Calendar, TrendingUp } from "lucide-react";
 import { hasActiveFilters } from "@/shared/lib";
 import { getComingSoonParams, getTrendingParams } from "@/shared/constants";
+import { useThemeStore } from "@/shared/store/theme.store";
+import { cn } from "@/shared/lib/utils";
+
+// Lazy loaded pages for code splitting
+const PersonPage = lazy(() => import("@/features/person/pages/PersonPage"));
+const WatchlistPage = lazy(() => import("@/features/watchlist/pages/WatchlistPage"));
+const FavoritesPage = lazy(() => import("@/features/favorites/pages/FavoritesPage"));
+
+// Loading fallback component
+const PageLoader: React.FC = () => (
+  <div className="flex items-center justify-center min-h-[50vh]">
+    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+  </div>
+);
 
 function DiscoveryPage() {
   // Use the new hook for filter management
@@ -21,9 +36,9 @@ function DiscoveryPage() {
   return (
     <>
       {/* Filter Chips Bar */}
-      <div className="sticky top-[60px] z-40 bg-[#0e0e0f]/80 backdrop-blur-modern border-b border-[#1a1a1c]">
+      <div className="sticky top-[60px] z-40 bg-background/80 backdrop-blur-modern border-b border-border">
         <div className="flex items-center gap-2 px-4 py-2">
-          <FilterChips 
+          <FilterChips
             filterState={filterState}
             updateFilter={updateFilter}
           />
@@ -65,15 +80,36 @@ function DiscoveryPage() {
 }
 
 export default function App() {
+  const { theme } = useThemeStore();
+
   return (
-    <div className="min-h-screen bg-[#0e0e0f] text-[#f2f2f2] font-sans antialiased rtl text-right">
+    <div
+      className={cn(
+        "min-h-screen bg-background text-foreground font-sans antialiased rtl text-right",
+        theme
+      )}
+    >
       {/* Modern Header */}
       <Header />
 
-      <Routes>
-        <Route path="/" element={<DiscoveryPage />} />
-        <Route path="/search" element={<SearchPage />} />
-      </Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          {/* Main Routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/discover" element={<DiscoveryPage />} />
+          <Route path="/search" element={<SearchPage />} />
+
+          {/* Person Page */}
+          <Route path="/person/:id" element={<PersonPage />} />
+
+          {/* User Pages */}
+          <Route path="/watchlist" element={<WatchlistPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+
+          {/* Fallback to Home */}
+          <Route path="*" element={<HomePage />} />
+        </Routes>
+      </Suspense>
 
       {/* Full Screen Movie Modal */}
       <MovieModalFullScreen />
